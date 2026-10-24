@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Client Hunter & Outreach Agent</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Freelance growth system</p>
+          <h1>AI Client Hunter & Outreach Agent</h1>
+        </div>
+        <button id="exportCsvBtn" class="primary-btn">Export CSV</button>
+      </header>
+
+      <nav class="nav-tabs" aria-label="Main navigation">
+        <button class="nav-tab active" data-section="overview">Overview</button>
+        <button class="nav-tab" data-section="research">Find New Leads</button>
+        <button class="nav-tab" data-section="metaAds">Meta Ads Research</button>
+        <button class="nav-tab" data-section="database">Lead Database</button>
+        <button class="nav-tab" data-section="messages">AI Message Generator</button>
+        <button class="nav-tab" data-section="approval">Approval Queue</button>
+        <button class="nav-tab" data-section="tracker">Outreach Tracker</button>
+        <button class="nav-tab" data-section="settings">Settings</button>
+      </nav>
+
+      <main>
+        <section id="overview" class="panel active">
+          <div class="section-header">
+            <h2>Dashboard overview</h2>
+            <span class="chip warn">Manual discovery mode</span>
+          </div>
+          <div id="statsGrid" class="stats-grid"></div>
+          <div class="info-box">
+            <h3>Current setup</h3>
+            <p>
+              This app is configured for a zero-budget, Android-friendly workflow. It uses
+              Google Sheets as a local CRM layer, generates outreach drafts with Google AI
+              Studio-style prompting patterns, and keeps a human approval gate before any message is sent.
+            </p>
+            <p>
+              External integrations are intentionally limited to honest, public-source workflows.
+              Instagram, LinkedIn, and Meta automations are not enabled by default because they require
+              official platform access, business approval, and compliance checks.
+            </p>
+          </div>
+        </section>
+
+        <section id="research" class="panel">
+          <div class="section-header">
+            <h2>Find new leads</h2>
+            <button id="addLeadBtn" class="primary-btn small">Add lead</button>
+          </div>
+
+          <form id="leadForm" class="lead-form">
+            <div class="form-row">
+              <label>Business name<input name="businessName" required /></label>
+              <label>Category<input name="category" required /></label>
+            </div>
+            <div class="form-row">
+              <label>Country<input name="country" value="India" /></label>
+              <label>City<input name="city" /></label>
+            </div>
+            <div class="form-row">
+              <label>Discovery platform<select name="discoveryPlatform">
+                <option>Instagram</option>
+                <option>Meta Ads Library</option>
+                <option>LinkedIn</option>
+                <option>Google Search</option>
+                <option>Website</option>
+              </select></label>
+              <label>Website<input name="website" /></label>
+            </div>
+            <div class="form-row">
+              <label>Contact method<input name="publicContact" /></label>
+              <label>Potential service<select name="potentialService">
+                <option>Canva social media design</option>
+                <option>Promotional creatives</option>
+                <option>Instagram templates</option>
+                <option>Custom gift cards</option>
+                <option>Business website</option>
+                <option>Branding package</option>
+              </select></label>
+            </div>
+            <div class="form-row">
+              <label>Opportunity<input name="opportunity" /></label>
+              <label>Evidence<input name="evidence" /></label>
+            </div>
+            <div class="form-row">
+              <label>Lead score<input name="leadScore" type="number" min="0" max="100" value="80" /></label>
+              <label>Status<select name="status">
+                <option>NEW</option>
+                <option>RESEARCHED</option>
+                <option>QUALIFIED</option>
+                <option>READY FOR APPROVAL</option>
+                <option>CONTACTED</option>
+                <option>REPLIED</option>
+                <option>INTERESTED</option>
+                <option>NEGOTIATING</option>
+                <option>WON</option>
+                <option>LOST</option>
+                <option>DO NOT CONTACT</option>
+              </select></label>
+            </div>
+            <button type="submit" class="primary-btn">Save lead</button>
+          </form>
+        </section>
+
+        <section id="metaAds" class="panel">
+          <div class="section-header">
+            <h2>Meta Ads research</h2>
+          </div>
+          <div id="metaAdsList" class="card-list"></div>
+        </section>
+
+        <section id="database" class="panel">
+          <div class="section-header">
+            <h2>Lead database</h2>
+            <input id="searchInput" placeholder="Search leads..." />
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Business</th>
+                  <th>City</th>
+                  <th>Platform</th>
+                  <th>Service</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="leadTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="messages" class="panel">
+          <div class="section-header">
+            <h2>AI message generator</h2>
+          </div>
+          <div id="draftList" class="card-list"></div>
+        </section>
+
+        <section id="approval" class="panel">
+          <div class="section-header">
+            <h2>Approval queue</h2>
+          </div>
+          <div id="approvalList" class="card-list"></div>
+        </section>
+
+        <section id="tracker" class="panel">
+          <div class="section-header">
+            <h2>Outreach tracker</h2>
+          </div>
+          <div id="trackerList" class="card-list"></div>
+        </section>
+
+        <section id="settings" class="panel">
+          <div class="section-header">
+            <h2>Settings and integrations</h2>
+          </div>
+          <div class="settings-grid">
+            <div class="setting-card">
+              <h3>Connected sources</h3>
+              <ul>
+                <li>Google AI Studio - available, quota-based</li>
+                <li>Google Sheets - available</li>
+                <li>Meta Ads Library - public research only</li>
+                <li>Instagram - public source view only</li>
+                <li>LinkedIn - manual prospecting only</li>
+              </ul>
+            </div>
+            <div class="setting-card">
+              <h3>Manual fallback</h3>
+              <ul>
+                <li>Use public Instagram pages and business contact links</li>
+                <li>Use Gmail or WhatsApp for approved sending after manual confirmation</li>
+                <li>Keep a CSV archive for every message draft</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
