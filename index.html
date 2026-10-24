@@ -7,23 +7,83 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div id="wizardOverlay" class="wizard-overlay">
+      <div class="wizard">
+        <h2>First-run setup</h2>
+        <p class="muted">This app helps you research public business leads, score them, and draft approved outreach messages. It does not send messages automatically.</p>
+        <form id="onboardingForm">
+          <label>
+            Service to sell first
+            <select name="service" required>
+              <option value="Canva social media post designs">Canva social media post designs</option>
+              <option value="Instagram post and story templates">Instagram post and story templates</option>
+              <option value="Custom gift cards and greeting cards">Custom gift cards and greeting cards</option>
+              <option value="Birthday and event invitations">Birthday and event invitations</option>
+              <option value="Digital planners and business templates">Digital planners and business templates</option>
+              <option value="Simple business websites and landing pages">Simple business websites and landing pages</option>
+              <option value="Social media promotional design packages">Social media promotional design packages</option>
+            </select>
+          </label>
+
+          <label>
+            Target country or city
+            <input name="location" value="India, Bengaluru" required />
+          </label>
+
+          <label>
+            Preferred industry
+            <select name="industry">
+              <option value="Beauty and salons">Beauty and salons</option>
+              <option value="Restaurants and cafes">Restaurants and cafes</option>
+              <option value="Fashion and clothing">Fashion and clothing</option>
+              <option value="Bakery and food brands">Bakery and food brands</option>
+              <option value="Coaching and education">Coaching and education</option>
+              <option value="Event planning">Event planning</option>
+              <option value="Home decor and lifestyle">Home decor and lifestyle</option>
+              <option value="Local retail">Local retail</option>
+            </select>
+          </label>
+
+          <label>
+            Discovery priority
+            <select name="priority" required>
+              <option value="Instagram">Instagram</option>
+              <option value="Meta Ads Library">Meta Ads Library</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Website and local businesses">Website and local businesses</option>
+            </select>
+          </label>
+
+          <div class="wizard-actions">
+            <button type="submit" class="primary-btn">Save setup</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="app-shell">
       <header class="topbar">
         <div>
           <p class="eyebrow">Freelance growth system</p>
           <h1>AI Client Hunter & Outreach Agent</h1>
         </div>
-        <button id="exportCsvBtn" class="primary-btn">Export CSV</button>
+        <div class="topbar-actions">
+          <button id="resetWizardBtn" class="secondary-btn">Setup</button>
+          <button id="exportCsvBtn" class="primary-btn">Export CSV</button>
+        </div>
       </header>
 
       <nav class="nav-tabs" aria-label="Main navigation">
         <button class="nav-tab active" data-section="overview">Overview</button>
         <button class="nav-tab" data-section="research">Find New Leads</button>
+        <button class="nav-tab" data-section="instagram">Instagram Prospects</button>
+        <button class="nav-tab" data-section="linkedin">LinkedIn Prospects</button>
         <button class="nav-tab" data-section="metaAds">Meta Ads Research</button>
         <button class="nav-tab" data-section="database">Lead Database</button>
         <button class="nav-tab" data-section="messages">AI Message Generator</button>
         <button class="nav-tab" data-section="approval">Approval Queue</button>
         <button class="nav-tab" data-section="tracker">Outreach Tracker</button>
+        <button class="nav-tab" data-section="packages">Service Packages</button>
         <button class="nav-tab" data-section="settings">Settings</button>
       </nav>
 
@@ -33,18 +93,15 @@
             <h2>Dashboard overview</h2>
             <span class="chip warn">Manual discovery mode</span>
           </div>
+          <div id="settingsBanner" class="info-box compact"></div>
           <div id="statsGrid" class="stats-grid"></div>
           <div class="info-box">
             <h3>Current setup</h3>
             <p>
-              This app is configured for a zero-budget, Android-friendly workflow. It uses
-              Google Sheets as a local CRM layer, generates outreach drafts with Google AI
-              Studio-style prompting patterns, and keeps a human approval gate before any message is sent.
+              This app is configured for a zero-budget, Android-friendly workflow. It uses Google Sheets as a CRM layer, stores prospect data locally, and creates outreach drafts with clear human review and approval. It does not send messages automatically.
             </p>
             <p>
-              External integrations are intentionally limited to honest, public-source workflows.
-              Instagram, LinkedIn, and Meta automations are not enabled by default because they require
-              official platform access, business approval, and compliance checks.
+              Meta Ads Library and public business pages are treated as research sources, not as proof that a business needs your design work. All claims must be public, observable, and verifiable or labeled as Unverified.
             </p>
           </div>
         </section>
@@ -58,7 +115,7 @@
           <form id="leadForm" class="lead-form">
             <div class="form-row">
               <label>Business name<input name="businessName" required /></label>
-              <label>Category<input name="category" required /></label>
+              <label>Business category<input name="category" required /></label>
             </div>
             <div class="form-row">
               <label>Country<input name="country" value="India" /></label>
@@ -72,10 +129,10 @@
                 <option>Google Search</option>
                 <option>Website</option>
               </select></label>
-              <label>Website<input name="website" /></label>
+              <label>Official website or public profile<input name="website" /></label>
             </div>
             <div class="form-row">
-              <label>Contact method<input name="publicContact" /></label>
+              <label>Public business contact method<input name="publicContact" /></label>
               <label>Potential service<select name="potentialService">
                 <option>Canva social media design</option>
                 <option>Promotional creatives</option>
@@ -83,11 +140,12 @@
                 <option>Custom gift cards</option>
                 <option>Business website</option>
                 <option>Branding package</option>
+                <option>Invitation design</option>
               </select></label>
             </div>
             <div class="form-row">
-              <label>Opportunity<input name="opportunity" /></label>
-              <label>Evidence<input name="evidence" /></label>
+              <label>Specific opportunity identified<input name="opportunity" /></label>
+              <label>Evidence supporting the opportunity<input name="evidence" /></label>
             </div>
             <div class="form-row">
               <label>Lead score<input name="leadScore" type="number" min="0" max="100" value="80" /></label>
@@ -107,6 +165,20 @@
             </div>
             <button type="submit" class="primary-btn">Save lead</button>
           </form>
+        </section>
+
+        <section id="instagram" class="panel">
+          <div class="section-header">
+            <h2>Instagram prospects</h2>
+          </div>
+          <div id="instagramList" class="card-list"></div>
+        </section>
+
+        <section id="linkedin" class="panel">
+          <div class="section-header">
+            <h2>LinkedIn prospects</h2>
+          </div>
+          <div id="linkedinList" class="card-list"></div>
         </section>
 
         <section id="metaAds" class="panel">
@@ -160,6 +232,34 @@
           <div id="trackerList" class="card-list"></div>
         </section>
 
+        <section id="packages" class="panel">
+          <div class="section-header">
+            <h2>Service packages</h2>
+          </div>
+          <div class="settings-grid">
+            <div class="setting-card">
+              <h3>Package A: Social Media Starter</h3>
+              <p>3–6 branded social creatives, consistent style, mobile-friendly layouts.</p>
+              <strong>Suggested INR: ₹2,500–₹8,000</strong>
+            </div>
+            <div class="setting-card">
+              <h3>Package B: Promotional Design Pack</h3>
+              <p>Campaign creatives, offer graphics, story posts, seasonal promotions.</p>
+              <strong>Suggested INR: ₹4,000–₹12,000</strong>
+            </div>
+            <div class="setting-card">
+              <h3>Package C: Custom Digital Cards</h3>
+              <p>Greeting cards, gift cards, invitations, and event creatives.</p>
+              <strong>Suggested INR: ₹1,500–₹6,000</strong>
+            </div>
+            <div class="setting-card">
+              <h3>Package D: Business Website Starter</h3>
+              <p>Simple, mobile-friendly one-page site or landing page.</p>
+              <strong>Suggested INR: ₹8,000–₹25,000</strong>
+            </div>
+          </div>
+        </section>
+
         <section id="settings" class="panel">
           <div class="section-header">
             <h2>Settings and integrations</h2>
@@ -168,19 +268,20 @@
             <div class="setting-card">
               <h3>Connected sources</h3>
               <ul>
-                <li>Google AI Studio - available, quota-based</li>
-                <li>Google Sheets - available</li>
-                <li>Meta Ads Library - public research only</li>
-                <li>Instagram - public source view only</li>
-                <li>LinkedIn - manual prospecting only</li>
+                <li>Google AI Studio — available, quota-based</li>
+                <li>Google Sheets — available as free CRM layer</li>
+                <li>Meta Ads Library — public research only</li>
+                <li>Instagram — public source view only</li>
+                <li>LinkedIn — public professional discovery only</li>
               </ul>
             </div>
             <div class="setting-card">
               <h3>Manual fallback</h3>
               <ul>
-                <li>Use public Instagram pages and business contact links</li>
-                <li>Use Gmail or WhatsApp for approved sending after manual confirmation</li>
-                <li>Keep a CSV archive for every message draft</li>
+                <li>Use public Instagram profile links</li>
+                <li>Use website contact forms or business email</li>
+                <li>Use WhatsApp or Gmail only after explicit approval</li>
+                <li>Keep CSV exports and audit records</li>
               </ul>
             </div>
           </div>
